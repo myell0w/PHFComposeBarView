@@ -449,13 +449,15 @@ static CGFloat kTextViewToSuperviewHeightDelta;
 }
 
 - (void)didPressButton {
-    if ([[self delegate] respondsToSelector:@selector(composeBarViewDidPressButton:)])
-        [[self delegate] composeBarViewDidPressButton:self];
+    id<PHFComposeBarViewDelegate> delegate = [self delegate];
+    if ([delegate respondsToSelector:@selector(composeBarViewDidPressButton:)])
+        [delegate composeBarViewDidPressButton:self];
 }
 
 - (void)didPressUtilityButton {
-    if ([[self delegate] respondsToSelector:@selector(composeBarViewDidPressUtilityButton:)])
-        [[self delegate] composeBarViewDidPressUtilityButton:self];
+    id<PHFComposeBarViewDelegate> delegate = [self delegate];
+    if ([delegate respondsToSelector:@selector(composeBarViewDidPressUtilityButton:)])
+        [delegate composeBarViewDidPressUtilityButton:self];
 }
 
 - (void)hidePlaceholderIfNeeded {
@@ -485,6 +487,7 @@ static CGFloat kTextViewToSuperviewHeightDelta;
     if (![self superview])
         return;
 
+    id<PHFComposeBarViewDelegate> delegate = [self delegate];
     CGFloat textHeight         = [self textHeight];
     CGFloat maxViewHeight      = [self maxHeight];
     CGFloat previousTextHeight = [self previousTextHeight];
@@ -542,19 +545,19 @@ static CGFloat kTextViewToSuperviewHeightDelta;
 
         void (^afterAnimation)(BOOL) = ^(BOOL finished){
             [self postNotification:PHFComposeBarViewDidChangeFrameNotification userInfo:didChangeUserInfo];
-            if ([[self delegate] respondsToSelector:@selector(composeBarView:didChangeFromFrame:toFrame:)])
-                [[self delegate] composeBarView:self
-                             didChangeFromFrame:frameBegin
-                                        toFrame:frameEnd];
+            if ([delegate respondsToSelector:@selector(composeBarView:didChangeFromFrame:toFrame:)])
+                [delegate composeBarView:self
+                      didChangeFromFrame:frameBegin
+                                 toFrame:frameEnd];
         };
 
         [self postNotification:PHFComposeBarViewWillChangeFrameNotification userInfo:willChangeUserInfo];
-        if ([[self delegate] respondsToSelector:@selector(composeBarView:willChangeFromFrame:toFrame:duration:animationCurve:)])
-            [[self delegate] composeBarView:self
-                        willChangeFromFrame:frameBegin
-                                    toFrame:frameEnd
-                                   duration:animationDuration
-                             animationCurve:kResizeAnimationCurve];
+        if ([delegate respondsToSelector:@selector(composeBarView:willChangeFromFrame:toFrame:duration:animationCurve:)])
+            [delegate composeBarView:self
+                 willChangeFromFrame:frameBegin
+                             toFrame:frameEnd
+                            duration:animationDuration
+                      animationCurve:kResizeAnimationCurve];
 
         if (animated) {
             [UIView animateWithDuration:kResizeAnimationDuration * animationDurationFactor
