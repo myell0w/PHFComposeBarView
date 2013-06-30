@@ -297,7 +297,10 @@ static CGFloat kTextViewToSuperviewHeightDelta;
                                   20.0f);
         _charCountLabel = [[UILabel alloc] initWithFrame:frame];
         [_charCountLabel setHidden:![self maxCharCount]];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [_charCountLabel setTextAlignment:UITextAlignmentCenter];
+#pragma clang diagnostic pop
         [_charCountLabel setBackgroundColor:[UIColor clearColor]];
         [_charCountLabel setFont:[UIFont boldSystemFontOfSize:[UIFont smallSystemFontSize]]];
         [_charCountLabel setTextColor:[UIColor colorWithWhite:0.5f alpha:1.0f]];
@@ -396,7 +399,10 @@ static CGFloat kTextViewToSuperviewHeightDelta;
         [_placeholderLabel setTextColor:[UIColor colorWithWhite:0.67f alpha:1.0f]];
         [_placeholderLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [_placeholderLabel setAdjustsFontSizeToFitWidth:YES];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [_placeholderLabel setMinimumFontSize:[UIFont smallSystemFontSize]];
+#pragma clang diagnostic pop
     }
 
     return _placeholderLabel;
